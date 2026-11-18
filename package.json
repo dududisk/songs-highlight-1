@@ -11,7 +11,7 @@
     "chat:dudu": "node --experimental-strip-types --env-file .env src/index.ts --user dudu",
     "chat:ale": "node --experimental-strip-types --env-file .env src/index.ts --user ale",
     "test": "node --experimental-strip-types --env-file .env --test tests/**/*.test.ts",
-    "test:watch": "node --experimental-strip-types --env-file .env --test --watch tests/**/*.test.ts",
+    "test:dev": "node --experimental-strip-types --env-file .env --test --watch tests/**/*.test.ts",
     "langgraph:serve": "npx @langchain/langgraph-cli dev"
   },
   "keywords": [
