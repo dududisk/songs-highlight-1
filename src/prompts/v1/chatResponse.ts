@@ -1,5 +1,6 @@
 import { z } from 'zod/v3';
 
+// esse arquivo define os schemas de validação para as respostas do chat e preferências do usuário, bem como funções para gerar prompts do sistema e do usuário. Estrutura os dados de entrada e saída do chat, garantindo consistência e validação das informações compartilhadas pelo usuário.
 export const UserPreferencesSchema = z.object({
   name: z.string().optional().describe('Nome do usuário'),
   age: z.number().optional().describe('Idade do usuário'),
@@ -7,6 +8,7 @@ export const UserPreferencesSchema = z.object({
   favoriteBands: z.array(z.string()).optional().describe('Bandas ou artistas favoritos'),
   mood: z.string().optional().describe('Humor ou sentimento atual'),
   listeningContext: z.string().optional().describe('Quando/onde ouve música'),
+// Adiciona um campo para informações adicionais que o usuário possa compartilhar, permitindo capturar preferências ou detalhes relevantes que não se encaixam nas categorias anteriores.
   additionalInfo: z.string().optional().describe('Outras preferências relevantes mencionadas'),
 });
 

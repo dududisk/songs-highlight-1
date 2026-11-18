@@ -33,6 +33,7 @@ export function buildChatGraph(
   const graph = new StateGraph(ChatStateAnnotation)
     .addNode('chat', createChatNode(llmClient))
     .addNode('savePreferences', createSavePreferencesNode())
+    // sumario faz resumo da conversa e pode ser usado para gerar recomendações de música
     .addNode('summarize', createSummarizationNode(llmClient))
 
     .addEdge(START, 'chat')
