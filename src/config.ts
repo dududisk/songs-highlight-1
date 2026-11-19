@@ -29,8 +29,9 @@ export const config: ModelConfig = {
   httpReferer: '',
   xTitle: 'IA Devs - Prompt Chaining Article Generator',
   models: [
-    'arcee-ai/trinity-large-preview:free',
-  ],
+   'baidu/ernie-5.5-flash-preview:free',
+   'nvidia/nemotron-3.5-super-vl:free',
+ ],
   provider: {
     sort: {
       by: 'throughput', // Route to model with highest throughput (fastest response)
