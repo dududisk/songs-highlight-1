@@ -4,7 +4,7 @@ import { buildChatGraph } from './graph.ts';
 import { createMemoryService } from '../services/memoryServices.ts';
 import { PreferencesService } from '../services/preferencesService.ts';
 
-export async function buildGraph(dbPath: string = config.preferences.dbPath) {
+export async function buildGraph(dbPath: string = './preferences.db') {
   const llmClient = new OpenRouterService(config);
   
   const memoryService = await createMemoryService();
@@ -17,11 +17,8 @@ export async function buildGraph(dbPath: string = config.preferences.dbPath) {
 
   return {
     graph,
-    memoryService: {
-      store: {
-        search: (arg1: any, arg2: any) => Promise.resolve([])
-      }
-    },
+    preferencesService,
+    memoryService,
   };
 }
 

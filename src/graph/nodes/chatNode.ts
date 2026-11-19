@@ -4,11 +4,13 @@ import type { GraphState } from '../graph.ts';
 import { getSystemPrompt, getUserPromptTemplate } from '../../prompts/v1/chatResponse.ts';
 import { AIMessage, HumanMessage } from '@langchain/core/messages';
 import { ChatResponseSchema } from '../../prompts/v1/chatResponse.ts';
+import { PreferencesService } from '../../services/preferencesService.ts';
 
-export function createChatNode(llmClient: OpenRouterService) {
+export function createChatNode(llmClient: OpenRouterService, preferencesService: PreferencesService) {
   return async (state: GraphState, runtime?: Runtime): Promise<Partial<GraphState>> => {
+    const userID = String(runtime?.context?.userID || state.userId || 'unknown')
 
-    const userContext = state.userContext || '';
+    const userContext = state.userContext ?? await preferencesService.getBasicInfo(userID);
     const systemPrompt = getSystemPrompt(userContext)
 
     const conversetionHistory = state.messages

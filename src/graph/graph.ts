@@ -35,8 +35,8 @@ export function buildChatGraph(
   memoryService: MemoryService,
 ) {
   const graph = new StateGraph(ChatStateAnnotation)
-    .addNode('chat', createChatNode(llmClient))
-    .addNode('savePreferences', createSavePreferencesNode())
+    .addNode('chat', createChatNode(llmClient, preferencesService))
+    .addNode('savePreferences', createSavePreferencesNode(preferencesService))
     // sumario faz resumo da conversa e pode ser usado para gerar recomendações de música
     .addNode('summarize', createSummarizationNode(llmClient))
 
