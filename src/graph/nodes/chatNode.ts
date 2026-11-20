@@ -5,6 +5,7 @@ import { getSystemPrompt, getUserPromptTemplate } from '../../prompts/v1/chatRes
 import { AIMessage, HumanMessage } from '@langchain/core/messages';
 import { ChatResponseSchema } from '../../prompts/v1/chatResponse.ts';
 import { PreferencesService } from '../../services/preferencesService.ts';
+import { config } from '../../config.ts';
 
 export function createChatNode(llmClient: OpenRouterService, preferencesService: PreferencesService) {
   return async (state: GraphState, runtime?: Runtime): Promise<Partial<GraphState>> => {
@@ -40,12 +41,19 @@ export function createChatNode(llmClient: OpenRouterService, preferencesService:
 
 
     const response = result.data
+
+    //calculate if the conversation needs summarization based on the number of messages and the maxMessagesToSummary config
+
+    const totalMessages = state.messages.length
+    const needsSummarization = totalMessages >= config.maxMessagesToSummary
+
+
     return {
       messages: [
         new AIMessage(response.message)
       ],
       extractedPreferences: response .shouldSavePreferences ? response.preferences : undefined,
-      needsSummarization: false,
+      needsSummarization,
     };
   }
 };

@@ -38,7 +38,7 @@ export function buildChatGraph(
     .addNode('chat', createChatNode(llmClient, preferencesService))
     .addNode('savePreferences', createSavePreferencesNode(preferencesService))
     // sumario faz resumo da conversa e pode ser usado para gerar recomendações de música
-    .addNode('summarize', createSummarizationNode(llmClient))
+    .addNode('summarize', createSummarizationNode(llmClient, preferencesService))
 
     .addEdge(START, 'chat')
 

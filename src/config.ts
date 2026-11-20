@@ -16,6 +16,7 @@ export type ModelConfig = {
   memory: {
     dbUri: string;
   };
+  maxMessagesToSummary: number;
 
   preferences: {
     dbPath: string;
@@ -45,4 +46,5 @@ export const config: ModelConfig = {
   preferences: {
     dbPath: process.env.PREFERENCES_DB_PATH ?? './preferences.db',
   },
+  maxMessagesToSummary: 2,
 };

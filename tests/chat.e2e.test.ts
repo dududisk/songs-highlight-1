@@ -181,4 +181,47 @@ describe('Chat de Recomendação Musical - Testes E2E', () => {
 
     assert.ok(hasUserMessage, 'Deve manter histórico da conversa');
   });
+
+ it('Deve manter histórico e gerar sumário após 8 mensagens', async () => {
+   const testThreadId = `test-user-${Date.now()}`;
+   const config = {
+     configurable: { thread_id: testThreadId },
+     context: { userId: testThreadId }
+   };
+
+   const userMessages = [
+     'Oi eu sou o Dudu',
+     'tenho 27 anos',
+     'eu gosto de piano',
+     'meu genero favorito e pop',
+     'eu gosto de escutar billie eilish',
+     'estou aprendendo a tocar musicas no piano',
+     'costumo ouvir musica enquanto estudo',
+     'tambem curto Olivia Rodrigo',
+   ];
+
+   for (const text of userMessages) {
+     await graph.invoke({ messages: [new HumanMessage(text)], userId: testThreadId }, config);
+   }
+
+   const { values } = await graph.getState(config);
+
+   // histórico: as 8 mensagens humanas continuam no estado
+   const humanTexts = values.messages
+     .filter((m: any) => m._getType() === 'human')
+     .map((m: any) => m.text);
+   assert.equal(humanTexts.length, userMessages.length, 'Deve manter as 8 mensagens do usuário');
+   for (const text of userMessages) {
+     assert.ok(humanTexts.includes(text), `Histórico deve conter: "${text}"`);
+   }
+
+   // sumário
+   const summary = values.conversationSummary;
+   assert.ok(summary, 'Deve ter gerado conversationSummary');
+   const summaryText = JSON.stringify(summary).toLowerCase();
+   assert.ok(summaryText.includes('dudu'), 'Sumário deve ter o nome');
+   assert.ok(summaryText.includes('27'), 'Sumário deve ter a idade');
+   assert.ok(summaryText.includes('pop'), 'Sumário deve ter o gênero');
+   assert.ok(summaryText.includes('billie'), 'Sumário deve ter a artista');
+ });
 });
